@@ -1,20 +1,22 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.20;
 
 import "./IERC20.sol";
 
 contract TokenSwap {
 
-    address public owner;
-    IERC20 public token1;
-    IERC20 public token2;
+    address  owner;
+    IERC20  token1;
+    IERC20  token2;
     
     constructor(address _token1, address _token2)  {
         token1 = IERC20(_token1);
         token2 = IERC20(_token2);
         owner = msg.sender;
     }
+
+    event successfullySwapped(address sender, uint256 amount, bool success);
 
     function calculateRatio() internal view returns(uint256) {
 
@@ -44,6 +46,8 @@ contract TokenSwap {
         token1.transferFrom(msg.sender, address(this), _amount);
 
         bool successfulSwap = token2.transfer(msg.sender, calculatedRatio);
+
+        emit successfullySwapped(msg.sender, _amount, successfulSwap);
 
         return successfulSwap;
     }
