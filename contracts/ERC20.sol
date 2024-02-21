@@ -6,8 +6,9 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract LeviToken is ERC20, Ownable {
-    constructor(address initialOwner)
-        ERC20("LeviToken", "LETO")
+
+    constructor(address initialOwner, string memory tokenName, string memory symbol)
+        ERC20(tokenName, symbol)
         Ownable(initialOwner)
     {
         _mint(msg.sender, 25000 * 10 ** decimals());
